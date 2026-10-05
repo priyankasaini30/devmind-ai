@@ -38,41 +38,55 @@ function Dashboard() {
         </h1>
   
         <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-400">
-          Your AI-powered coding assistant for reviewing code,
-          learning programming, and managing your knowledge.
-        </p>
+  Your all-in-one AI platform for code review, mock interviews,
+  and placement preparation.
+</p>
       </section>
 
         {/* Stats Row */}
-        {!loading && stats && stats.totalReviews > 0 && (
-          <section className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-              <p className="text-sm text-slate-500">Total Reviews</p>
-              <p className="mt-1 text-3xl font-bold">{stats.totalReviews}</p>
-            </div>
+{!loading && stats && (stats.totalReviews > 0 || stats.totalInterviews > 0) && (
+  <section className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+      <p className="text-sm text-slate-500">Total Reviews</p>
+      <p className="mt-1 text-3xl font-bold">{stats.totalReviews}</p>
+    </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-              <p className="text-sm text-slate-500">Avg. Quality Score</p>
-              <p className="mt-1 text-3xl font-bold text-indigo-400">
-                {stats.averageScore}/10
-              </p>
-            </div>
+    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+      <p className="text-sm text-slate-500">Avg. Quality Score</p>
+      <p className="mt-1 text-3xl font-bold text-indigo-400">
+        {stats.averageScore}/10
+      </p>
+    </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-              <p className="text-sm text-slate-500">Bugs Found</p>
-              <p className="mt-1 text-3xl font-bold text-amber-400">
-                {stats.totalBugs}
-              </p>
-            </div>
+    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+      <p className="text-sm text-slate-500">Bugs Found</p>
+      <p className="mt-1 text-3xl font-bold text-amber-400">
+        {stats.totalBugs}
+      </p>
+    </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-              <p className="text-sm text-slate-500">Security Issues</p>
-              <p className="mt-1 text-3xl font-bold text-red-400">
-                {stats.totalSecurityIssues}
-              </p>
-            </div>
-          </section>
-        )}
+    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+      <p className="text-sm text-slate-500">Security Issues</p>
+      <p className="mt-1 text-3xl font-bold text-red-400">
+        {stats.totalSecurityIssues}
+      </p>
+    </div>
+
+    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+      <p className="text-sm text-slate-500">Interviews Completed</p>
+      <p className="mt-1 text-3xl font-bold text-purple-400">
+        {stats.totalInterviews}
+      </p>
+    </div>
+
+    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+      <p className="text-sm text-slate-500">Avg. Interview Score</p>
+      <p className="mt-1 text-3xl font-bold text-purple-400">
+        {stats.averageInterviewScore}/10
+      </p>
+    </div>
+  </section>
+)}
 
         {/* Language Breakdown */}
         {!loading && stats && stats.languageBreakdown?.length > 0 && (

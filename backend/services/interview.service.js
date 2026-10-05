@@ -190,6 +190,25 @@ const submitAnswer = async ({ interviewId, userId, answer }) => {
   await interview.save();
   return interview;
 };
+const getInterviewStats = async (userId) => {
+  const interviews = await Interview.find({ userId, status: "completed" });
+
+  const totalInterviews = interviews.length;
+
+  if (totalInterviews === 0) {
+    return {
+      totalInterviews: 0,
+      averageInterviewScore: 0,
+    };
+  }
+
+  const totalScore = interviews.reduce((sum, i) => sum + (i.overallScore || 0), 0);
+
+  return {
+    totalInterviews,
+    averageInterviewScore: Math.round((totalScore / totalInterviews) * 10) / 10,
+  };
+};
 
 const getInterviewById = async (id, userId) => {
   return Interview.findOne({ _id: id, userId });
@@ -206,4 +225,5 @@ module.exports = {
   submitAnswer,
   getInterviewById,
   getAllInterviews,
+  getInterviewStats,
 };

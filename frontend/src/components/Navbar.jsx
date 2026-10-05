@@ -54,6 +54,12 @@ function Navbar() {
 >
   🎙️ Interview
 </Link>
+<Link
+  to="/notes"
+  className="rounded-lg px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
+>
+  🧠 My Notes
+</Link>
 {user ? (
   <button
     onClick={logout}
@@ -70,13 +76,6 @@ function Navbar() {
   </Link>
 )}
         
-             
-        <Link
-  to="/notes"
-  className="rounded-lg px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
->
-  🧠 My Notes
-</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -134,6 +133,14 @@ function Navbar() {
   🎙️ Interview
 </Link>
 
+<Link
+  to="/notes"
+  onClick={()=>{setMenuOpen(false)}}
+  className="rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
+>
+  🧠 My Notes
+</Link>
+
 {user ? (
   <button
     onClick={logout}
@@ -149,13 +156,7 @@ function Navbar() {
     Log In
   </Link>
 )}
-<Link
-  to="/notes"
-  onClick={()=>{setMenuOpen(false)}}
-  className="rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
->
-  🧠 My Notes
-</Link>
+
 
 
 

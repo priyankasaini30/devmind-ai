@@ -1,11 +1,37 @@
 const { GoogleGenAI } = require("@google/genai");
+const crypto = require("crypto");
+const { getRedisClient } = require("../config/redis");
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
+const CACHE_TTL_SECONDS = 60 * 60 * 24; // 24 hours
+
+function buildCacheKey(code, language) {
+  const hash = crypto
+    .createHash("sha256")
+    .update(`${language.toLowerCase().trim()}::${code}`)
+    .digest("hex");
+  return `review:${hash}`;
+}
 
 // AI Code Review
 async function reviewCodeWithGemini(code, language) {
+  const cacheKey = buildCacheKey(code, language);
+  const redisClient = getRedisClient();
+
+  // Check cache first
+  if (redisClient) {
+    try {
+      const cached = await redisClient.get(cacheKey);
+      if (cached) {
+        console.log("Cache hit:", cacheKey);
+        return JSON.parse(cached);
+      }
+    } catch (err) {
+      console.error("Redis read failed, falling back to Gemini:", err.message);
+    }
+  }
   const prompt = `
 You are an expert software engineer and code reviewer.
 
@@ -69,7 +95,18 @@ ${code}
   });
 
   const reviewText = response.text;
-  return JSON.parse(reviewText);
+  const review = JSON.parse(reviewText);
+
+  // Cache the result
+  if (redisClient) {
+    try {
+      await redisClient.set(cacheKey, JSON.stringify(review), { EX: CACHE_TTL_SECONDS });
+    } catch (err) {
+      console.error("Redis write failed:", err.message);
+    }
+  }
+
+  return review;
 }
 
 module.exports = {
