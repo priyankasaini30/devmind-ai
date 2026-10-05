@@ -23,7 +23,7 @@ const getAllReviews = async ({userId, page = 1, limit = 10 } = {}) => {
 const getReviewById = async (id, userId ) => {
   return Review.findOne({_id: id, userId});
 };
-const getDashboardStats = async ({userId}) => {
+const getDashboardStats = async (userId) => {
     const totalReviews = await Review.countDocuments({userId});
   
     if (totalReviews === 0) {
