@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FeatureCard from "../components/FeatureCard";
 import { apiFetch } from "../utils/api";
+import {useNavigate} from "react-router-dom";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -124,7 +126,7 @@ function Dashboard() {
             title="AI Code Review"
             description="Analyze your code for bugs, security issues, complexity, quality, and improvements."
             buttonText="Review Code →"
-            onClick={() => window.location.href = "/review"}
+            onClick={() => navigate("/review")}
             accent="indigo"
           />
 
@@ -133,7 +135,7 @@ function Dashboard() {
             title="AI Interviewer"
             description="Practice technical interview questions with real-time AI feedback."
             buttonText="Start Interview →"
-            onClick={() => window.location.href = "/interview"}
+            onClick={() => navigate("/interview")}
             accent="purple"
           />
 
@@ -142,7 +144,7 @@ function Dashboard() {
             title="Review History"
             description="Browse and revisit all your past code reviews in detail."
             buttonText="View History →"
-            onClick={() => window.location.href = "/history"}
+            onClick={() => navigate("/history")}
             accent="green"
           />
           <FeatureCard
@@ -150,7 +152,7 @@ function Dashboard() {
   title="My Notes"
   description="Save programming notes, concepts, code snippets, and useful learning resources."
   buttonText="View Notes →"
-  onClick={() => window.location.href = "/notes"}
+    onClick={() => navigate("/notes")}
   accent="purple"
 />
         </section>
