@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../utils/api";
 import AuthLayout, { AuthField, AuthError, AuthSubmit } from "../components/AuthLayout";
-
+//login page
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
