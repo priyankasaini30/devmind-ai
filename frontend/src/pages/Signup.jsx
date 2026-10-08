@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../utils/api";
+import AuthLayout, { AuthField, AuthError, AuthSubmit } from "../components/AuthLayout";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -31,59 +32,59 @@ function Signup() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-6 text-white">
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-8">
-        <h1 className="mb-6 text-2xl font-bold">Create your account</h1>
-
-        {error && (
-          <div className="mb-4 rounded-lg border border-red-700 bg-red-900/40 px-4 py-2 text-sm text-red-200">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="password"
-            placeholder="Password (min 6 characters)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-indigo-600 py-2 font-medium text-white transition hover:bg-indigo-500 disabled:opacity-50"
-          >
-            {loading ? "Creating account..." : "Sign Up"}
-          </button>
-        </form>
-
-        <p className="mt-4 text-center text-sm text-slate-500">
+    <AuthLayout
+      title="Create your account"
+      subtitle="Start reviewing code and practicing interviews with DevMind"
+      footer={
+        <>
           Already have an account?{" "}
-          <Link to="/login" className="text-indigo-400 hover:text-indigo-300">
+          <Link
+            to="/login"
+            className="font-medium text-indigo-400 transition hover:text-indigo-300 hover:underline"
+          >
             Log in
           </Link>
-        </p>
-      </div>
-    </div>
+        </>
+      }
+    >
+      {error && <AuthError message={error} />}
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <AuthField
+          id="name"
+          label="Name"
+          icon="user"
+          placeholder="Your name"
+          autoComplete="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <AuthField
+          id="email"
+          label="Email"
+          type="email"
+          icon="mail"
+          placeholder="you@example.com"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <AuthField
+          id="password"
+          label="Password"
+          type="password"
+          icon="lock"
+          placeholder="At least 6 characters"
+          autoComplete="new-password"
+          minLength={6}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <AuthSubmit loading={loading} loadingText="Creating account...">
+          Sign Up →
+        </AuthSubmit>
+      </form>
+    </AuthLayout>
   );
 }
 
